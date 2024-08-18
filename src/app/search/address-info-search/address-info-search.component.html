@@ -1,0 +1,78 @@
+ <!-- <div class="search-container">
+    <input type="text" [(ngModel)]="searchQuery" (input)="onSearch()" placeholder="Search by any address field" class="search-input" />
+  
+    <div *ngIf="filteredAddresses.length > 0" class="results-container">
+      <p-card *ngFor="let address of filteredAddresses" class="result-item">
+        <ng-template pTemplate="header">
+          <div class="address-header">
+            {{ address.street }}
+          </div>
+        </ng-template>
+        <div class="address-details">
+          <p><strong>Street:</strong> {{ address.street }}</p>
+          <p><strong>City:</strong> {{ address.city }}</p>
+          <p><strong>State:</strong> {{ address.state }}</p>
+          <p><strong>Zip:</strong> {{ address.zip }}</p>
+        </div>
+      </p-card>
+    </div>
+  
+    <div *ngIf="filteredAddresses.length === 0 && searchQuery" class="no-results">
+      <p>No results found</p>
+    </div>
+  </div> -->
+  
+
+<div class="search-container">
+  <input type="text" [(ngModel)]="searchQuery" (input)="onSearch()" placeholder="Search by any address field" class="search-input" />
+
+  <ng-container *ngIf="filteredAddresses.length > 0">
+    <div class="p-search-address">
+
+    
+      <p-dropdown class="p-search-dd" [options]="filteredAddresses" 
+      [(ngModel)]="selectedAddress" 
+      optionLabel="street"
+      placeholder="Select an address"
+      (onChange)="onSelectAddress($event)">
+    </p-dropdown>
+</div>
+  </ng-container>
+
+
+  <div *ngIf="selectedAddress" class="result-card">
+    <p-card class="result-item">
+      <ng-template pTemplate="header">
+        <div class="address-header">
+          {{ selectedAddress.street }}
+        </div>
+      </ng-template>
+      <div class="address-details">
+        <p><strong>Street:</strong> {{ selectedAddress.street }}</p>
+        <p><strong>City:</strong> {{ selectedAddress.city }}</p>
+        <p><strong>State:</strong> {{ selectedAddress.state }}</p>
+        <p><strong>Zip:</strong> {{ selectedAddress.zip }}</p>
+      </div>
+    </p-card>
+  </div>
+  <br>
+
+
+  <ng-container *ngIf="selectedAddress">
+    <p>List of Images</p>
+    <p-galleria [value]="images" [responsiveOptions]="responsiveOptions" [containerStyle]="{'max-width': '640px'}" [numVisible]="5">
+        <ng-template pTemplate="item" let-item>
+            <img  style="width: 100%;" [src]="item.previewImageSrc" [alt]="item.alt" />
+        </ng-template>
+        <ng-template pTemplate="thumbnail" let-item>
+            <div class="grid grid-nogutter justify-content-center">
+                <img [src]="item.thumbnailImageSrc" />
+            </div>
+        </ng-template>
+    </p-galleria>
+  </ng-container>
+
+  <div *ngIf="filteredAddresses.length === 0 && searchQuery" class="no-results">
+    <p>No results found</p>
+  </div>
+</div>
